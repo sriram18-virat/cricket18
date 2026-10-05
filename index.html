@@ -1,0 +1,1251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CricketHub - Sriram</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, sans-serif;
+}
+
+body{
+    min-height:100vh;
+    color:#fff;
+    background:
+    radial-gradient(circle at 80% 10%,rgba(0,210,255,.15),transparent 30%),
+    radial-gradient(circle at 20% 90%,rgba(90,50,255,.15),transparent 30%),
+    #050912;
+}
+
+/* SIDEBAR */
+.sidebar{
+    position:fixed;
+    left:0;
+    top:0;
+    width:240px;
+    height:100vh;
+    padding:28px 18px;
+    background:rgba(8,13,23,.9);
+    backdrop-filter:blur(20px);
+    border-right:1px solid rgba(255,255,255,.08);
+    z-index:10;
+}
+
+.logo{
+    font-size:22px;
+    font-weight:bold;
+    margin-bottom:40px;
+}
+
+.logo span{
+    color:#00d9ff;
+}
+
+nav{
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+}
+
+.nav-btn{
+    border:0;
+    padding:14px;
+    border-radius:12px;
+    background:transparent;
+    color:#8993a5;
+    text-align:left;
+    cursor:pointer;
+    font-size:14px;
+    transition:.3s;
+}
+
+.nav-btn:hover,
+.nav-btn.active{
+    color:#fff;
+    background:rgba(0,210,255,.1);
+    box-shadow:inset 3px 0 #00d9ff;
+}
+
+.logout{
+    position:absolute;
+    bottom:25px;
+    left:18px;
+    right:18px;
+    padding:13px;
+    border:0;
+    border-radius:10px;
+    background:transparent;
+    color:#8993a5;
+    cursor:pointer;
+    text-align:left;
+}
+
+.logout:hover{
+    background:rgba(255,255,255,.06);
+    color:white;
+}
+
+/* MAIN */
+.main{
+    margin-left:240px;
+    padding:25px 35px;
+}
+
+/* TOPBAR */
+.topbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:25px;
+}
+
+.search{
+    width:360px;
+    padding:13px 17px;
+    border-radius:12px;
+    background:rgba(255,255,255,.05);
+    border:1px solid rgba(255,255,255,.08);
+}
+
+.search input{
+    width:90%;
+    background:none;
+    border:0;
+    outline:0;
+    color:white;
+}
+
+.user{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    cursor:pointer;
+}
+
+.avatar{
+    width:44px;
+    height:44px;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:bold;
+    background:linear-gradient(135deg,#00d9ff,#6547ff);
+}
+
+.user small{
+    display:block;
+    color:#7d8798;
+    margin-top:3px;
+}
+
+/* PAGES */
+.page{
+    display:none;
+}
+
+.page.active{
+    display:block;
+}
+
+/* HERO */
+.hero{
+    min-height:280px;
+    padding:45px;
+    border-radius:25px;
+    position:relative;
+    overflow:hidden;
+    background:
+    linear-gradient(90deg,rgba(3,8,18,.98),rgba(3,8,18,.5)),
+    radial-gradient(circle at 80%,rgba(0,210,255,.25),transparent 35%);
+    border:1px solid rgba(255,255,255,.08);
+}
+
+.hero small{
+    color:#00d9ff;
+    letter-spacing:2px;
+}
+
+.hero h1{
+    font-size:48px;
+    margin:15px 0;
+}
+
+.hero h1 span{
+    color:#00d9ff;
+}
+
+.hero p{
+    color:#9ba5b5;
+    max-width:550px;
+    line-height:1.7;
+}
+
+.ball{
+    position:absolute;
+    right:100px;
+    top:55px;
+    font-size:130px;
+    opacity:.13;
+    transform:rotate(-20deg);
+}
+
+.btn{
+    margin-top:20px;
+    padding:12px 20px;
+    border:0;
+    border-radius:10px;
+    background:linear-gradient(135deg,#00d9ff,#6547ff);
+    color:white;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.btn:hover{
+    transform:translateY(-2px);
+}
+
+/* STATS */
+.stats{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:18px;
+    margin:25px 0;
+}
+
+.stat{
+    padding:20px;
+    border-radius:17px;
+    background:rgba(255,255,255,.045);
+    border:1px solid rgba(255,255,255,.07);
+}
+
+.stat-icon{
+    font-size:25px;
+}
+
+.stat small{
+    color:#818b9b;
+}
+
+.stat h2{
+    margin-top:7px;
+}
+
+/* GRID */
+.dashboard-grid{
+    display:grid;
+    grid-template-columns:1.5fr .8fr;
+    gap:22px;
+}
+
+.box{
+    padding:22px;
+    border-radius:20px;
+    background:rgba(255,255,255,.045);
+    border:1px solid rgba(255,255,255,.08);
+}
+
+/* MATCH */
+.match{
+    padding:20px;
+    margin-top:15px;
+    border-radius:16px;
+    background:rgba(255,255,255,.035);
+}
+
+.teams{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:50px;
+}
+
+.team{
+    text-align:center;
+}
+
+.team-logo{
+    font-size:42px;
+}
+
+.vs{
+    color:#00d9ff;
+    font-weight:bold;
+}
+
+.details{
+    text-align:center;
+    color:#858f9e;
+    font-size:12px;
+    margin:15px;
+}
+
+.ticket-btn{
+    display:block;
+    margin:auto;
+    padding:9px 18px;
+    border:1px solid rgba(0,210,255,.4);
+    border-radius:9px;
+    background:rgba(0,210,255,.08);
+    color:#00d9ff;
+    cursor:pointer;
+}
+
+/* PROFILE */
+.profile{
+    text-align:center;
+    padding:25px;
+    border-radius:20px;
+    background:rgba(255,255,255,.045);
+    border:1px solid rgba(255,255,255,.08);
+}
+
+.big-avatar{
+    width:90px;
+    height:90px;
+    margin:auto;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:35px;
+    font-weight:bold;
+    background:linear-gradient(135deg,#00d9ff,#6547ff);
+}
+
+.profile h2{
+    margin-top:15px;
+}
+
+.role{
+    color:#00d9ff;
+    margin:5px;
+}
+
+.email{
+    color:#8791a1;
+    font-size:12px;
+    margin:15px 0;
+}
+
+/* PAGE HEAD */
+.page-head{
+    margin-bottom:25px;
+}
+
+.page-head h1{
+    font-size:32px;
+}
+
+.page-head p{
+    color:#7e8898;
+    margin-top:6px;
+}
+
+/* MATCH PAGE */
+.match-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:20px;
+}
+
+.match-big{
+    padding:30px;
+    text-align:center;
+    border-radius:20px;
+    background:rgba(255,255,255,.045);
+    border:1px solid rgba(255,255,255,.08);
+}
+
+.match-big .teams{
+    margin:25px 0;
+}
+
+.match-big .team-logo{
+    font-size:55px;
+}
+
+.location{
+    color:#828c9b;
+    font-size:13px;
+}
+
+/* TICKETS */
+.ticket-list{
+    display:flex;
+    flex-direction:column;
+    gap:15px;
+}
+
+.ticket{
+    padding:25px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    border-radius:18px;
+    background:rgba(255,255,255,.045);
+    border:1px solid rgba(255,255,255,.08);
+}
+
+.ticket small{
+    color:#00d9ff;
+}
+
+.confirmed{
+    color:#00e0a0;
+}
+
+/* PROFILE PAGE */
+.profile-page{
+    display:grid;
+    grid-template-columns:300px 1fr;
+    gap:25px;
+}
+
+.profile-left,
+.form{
+    padding:30px;
+    border-radius:20px;
+    background:rgba(255,255,255,.045);
+    border:1px solid rgba(255,255,255,.08);
+    text-align:center;
+}
+
+.form{
+    text-align:left;
+}
+
+.form label{
+    display:block;
+    color:#929baa;
+    margin:12px 0 7px;
+}
+
+.form input{
+    width:100%;
+    padding:13px;
+    border-radius:10px;
+    border:1px solid rgba(255,255,255,.1);
+    background:rgba(0,0,0,.25);
+    color:white;
+    outline:none;
+}
+
+/* SETTINGS */
+.settings{
+    padding:10px 25px;
+    border-radius:20px;
+    background:rgba(255,255,255,.045);
+    border:1px solid rgba(255,255,255,.08);
+}
+
+.setting{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:25px 0;
+    border-bottom:1px solid rgba(255,255,255,.07);
+}
+
+.setting:last-child{
+    border:0;
+}
+
+.setting p{
+    color:#7d8797;
+    font-size:12px;
+    margin-top:5px;
+}
+
+/* TOGGLE */
+.switch input{
+    display:none;
+}
+
+.switch span{
+    display:block;
+    width:48px;
+    height:25px;
+    border-radius:30px;
+    background:#252d3a;
+    cursor:pointer;
+    position:relative;
+}
+
+.switch span:after{
+    content:"";
+    position:absolute;
+    width:19px;
+    height:19px;
+    top:3px;
+    left:3px;
+    background:white;
+    border-radius:50%;
+    transition:.3s;
+}
+
+.switch input:checked + span{
+    background:#00bddb;
+}
+
+.switch input:checked + span:after{
+    left:26px;
+}
+
+/* TOAST */
+.toast{
+    position:fixed;
+    right:25px;
+    bottom:25px;
+    padding:15px 20px;
+    border-radius:10px;
+    background:#101a27;
+    border:1px solid rgba(0,210,255,.3);
+    color:#00d9ff;
+    opacity:0;
+    transform:translateY(30px);
+    transition:.3s;
+}
+
+.toast.show{
+    opacity:1;
+    transform:translateY(0);
+}
+
+/* MOBILE */
+@media(max-width:900px){
+
+    .sidebar{
+        position:relative;
+        width:100%;
+        height:auto;
+    }
+
+    nav{
+        flex-direction:row;
+        flex-wrap:wrap;
+    }
+
+    .logout{
+        display:none;
+    }
+
+    .main{
+        margin-left:0;
+    }
+
+    .stats{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .dashboard-grid,
+    .profile-page,
+    .match-grid{
+        grid-template-columns:1fr;
+    }
+}
+
+@media(max-width:600px){
+
+    .main{
+        padding:15px;
+    }
+
+    .topbar{
+        flex-direction:column;
+        align-items:stretch;
+        gap:15px;
+    }
+
+    .search{
+        width:100%;
+    }
+
+    .stats{
+        grid-template-columns:1fr;
+    }
+
+    .hero{
+        padding:30px;
+    }
+
+    .hero h1{
+        font-size:34px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+
+    <div class="logo">🏏 <span>CricketHub</span></div>
+
+    <nav>
+        <button class="nav-btn active" onclick="showPage('dashboard',this)">
+            🏠 Dashboard
+        </button>
+
+        <button class="nav-btn" onclick="showPage('matches',this)">
+            🏏 Matches
+        </button>
+
+        <button class="nav-btn" onclick="showPage('tickets',this)">
+            🎟 Tickets
+        </button>
+
+        <button class="nav-btn" onclick="showPage('profile',this)">
+            👤 Profile
+        </button>
+
+        <button class="nav-btn" onclick="showPage('settings',this)">
+            ⚙ Settings
+        </button>
+    </nav>
+
+    <button class="logout" onclick="logout()">↪ Logout</button>
+</aside>
+
+
+<main class="main">
+
+<!-- TOP -->
+<header class="topbar">
+
+    <div class="search">
+        🔍
+        <input type="text" placeholder="Search matches, teams...">
+    </div>
+
+    <div class="user" onclick="showPage('profile')">
+
+        <div class="avatar" id="topAvatar">S</div>
+
+        <div>
+            <strong id="topName">Sriram</strong>
+            <small id="topRole">Cricket Fan</small>
+        </div>
+
+    </div>
+
+</header>
+
+
+<!-- DASHBOARD -->
+<section id="dashboard" class="page active">
+
+    <div class="hero">
+
+        <small>🏏 LIVE CRICKET EXPERIENCE</small>
+
+        <h1>Feel The <span>Game</span></h1>
+
+        <p>
+            Follow matches, book tickets and stay connected
+            with your favourite cricket teams.
+        </p>
+
+        <button class="btn"
+        onclick="showPage('matches')">
+            Explore Matches →
+        </button>
+
+        <div class="ball">🏏</div>
+
+    </div>
+
+
+    <div class="stats">
+
+        <div class="stat">
+            <div class="stat-icon">🏏</div>
+            <small>Total Matches</small>
+            <h2>24</h2>
+        </div>
+
+        <div class="stat">
+            <div class="stat-icon">🎟</div>
+            <small>My Tickets</small>
+            <h2 id="ticketCount">3</h2>
+        </div>
+
+        <div class="stat">
+            <div class="stat-icon">🔥</div>
+            <small>Upcoming Matches</small>
+            <h2>8</h2>
+        </div>
+
+        <div class="stat">
+            <div class="stat-icon">⭐</div>
+            <small>Favorite Teams</small>
+            <h2>5</h2>
+        </div>
+
+    </div>
+
+
+    <div class="dashboard-grid">
+
+        <div class="box">
+
+            <h2>Upcoming Matches</h2>
+
+            <div class="match">
+
+                <div class="teams">
+
+                    <div class="team">
+                        <div class="team-logo">🇮🇳</div>
+                        <b>IND</b>
+                    </div>
+
+                    <div class="vs">VS</div>
+
+                    <div class="team">
+                        <div class="team-logo">🇦🇺</div>
+                        <b>AUS</b>
+                    </div>
+
+                </div>
+
+                <div class="details">
+                    📍 Wankhede Stadium • 🕒 7:30 PM
+                </div>
+
+                <button class="ticket-btn"
+                onclick="bookTicket('IND vs AUS')">
+                    Buy Ticket
+                </button>
+
+            </div>
+
+
+            <div class="match">
+
+                <div class="teams">
+
+                    <div class="team">
+                        <div class="team-logo">🏴</div>
+                        <b>ENG</b>
+                    </div>
+
+                    <div class="vs">VS</div>
+
+                    <div class="team">
+                        <div class="team-logo">🇵🇰</div>
+                        <b>PAK</b>
+                    </div>
+
+                </div>
+
+                <div class="details">
+                    📍 Lord's • 🕒 3:30 PM
+                </div>
+
+                <button class="ticket-btn"
+                onclick="bookTicket('ENG vs PAK')">
+                    Buy Ticket
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- PROFILE -->
+        <div class="profile">
+
+            <div class="big-avatar" id="dashAvatar">S</div>
+
+            <h2 id="dashName">Sriram</h2>
+
+            <div class="role" id="dashRole">
+                Cricket Fan
+            </div>
+
+            <div class="email" id="dashEmail">
+                ✉ sriram18virat@gmail.com
+            </div>
+
+            <button class="btn"
+            onclick="showPage('profile')">
+                Edit Profile
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- MATCHES -->
+<section id="matches" class="page">
+
+    <div class="page-head">
+        <h1>🏏 Matches</h1>
+        <p>Upcoming cricket matches</p>
+    </div>
+
+    <div class="match-grid">
+
+        <div class="match-big">
+
+            <small>OCT 08 • 2026</small>
+
+            <div class="teams">
+
+                <div class="team">
+                    <div class="team-logo">🇮🇳</div>
+                    <h3>India</h3>
+                    <small>IND</small>
+                </div>
+
+                <div class="vs">VS</div>
+
+                <div class="team">
+                    <div class="team-logo">🇦🇺</div>
+                    <h3>Australia</h3>
+                    <small>AUS</small>
+                </div>
+
+            </div>
+
+            <p class="location">
+                📍 Wankhede Stadium, Mumbai<br>
+                🕒 7:30 PM
+            </p>
+
+            <button class="btn"
+            onclick="bookTicket('IND vs AUS')">
+                🎟 Buy Ticket
+            </button>
+
+        </div>
+
+
+        <div class="match-big">
+
+            <small>OCT 12 • 2026</small>
+
+            <div class="teams">
+
+                <div class="team">
+                    <div class="team-logo">🏴</div>
+                    <h3>England</h3>
+                    <small>ENG</small>
+                </div>
+
+                <div class="vs">VS</div>
+
+                <div class="team">
+                    <div class="team-logo">🇵🇰</div>
+                    <h3>Pakistan</h3>
+                    <small>PAK</small>
+                </div>
+
+            </div>
+
+            <p class="location">
+                📍 Lord's, London<br>
+                🕒 3:30 PM
+            </p>
+
+            <button class="btn"
+            onclick="bookTicket('ENG vs PAK')">
+                🎟 Buy Ticket
+            </button>
+
+        </div>
+
+
+        <div class="match-big">
+
+            <small>OCT 16 • 2026</small>
+
+            <div class="teams">
+
+                <div class="team">
+                    <div class="team-logo">🇳🇿</div>
+                    <h3>New Zealand</h3>
+                    <small>NZ</small>
+                </div>
+
+                <div class="vs">VS</div>
+
+                <div class="team">
+                    <div class="team-logo">🇿🇦</div>
+                    <h3>South Africa</h3>
+                    <small>SA</small>
+                </div>
+
+            </div>
+
+            <p class="location">
+                📍 Eden Park, Auckland<br>
+                🕒 7:00 PM
+            </p>
+
+            <button class="btn"
+            onclick="bookTicket('NZ vs SA')">
+                🎟 Buy Ticket
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- TICKETS -->
+<section id="tickets" class="page">
+
+    <div class="page-head">
+        <h1>🎟 My Tickets</h1>
+        <p>Your booked cricket tickets</p>
+    </div>
+
+    <div class="ticket-list" id="ticketList">
+
+        <div class="ticket">
+
+            <div>
+                <small>CRICKET TICKET</small>
+                <h2>IND vs AUS</h2>
+                <p>📍 Wankhede Stadium, Mumbai</p>
+            </div>
+
+            <span class="confirmed">
+                ✓ Confirmed
+            </span>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- PROFILE -->
+<section id="profile" class="page">
+
+    <div class="page-head">
+        <h1>👤 My Profile</h1>
+        <p>Manage your cricket profile</p>
+    </div>
+
+    <div class="profile-page">
+
+        <div class="profile-left">
+
+            <div class="big-avatar" id="profileAvatar">
+                S
+            </div>
+
+            <h2 id="profileName">Sriram</h2>
+
+            <p class="role" id="profileRole">
+                Cricket Fan
+            </p>
+
+            <p class="email" id="profileEmail">
+                sriram18virat@gmail.com
+            </p>
+
+        </div>
+
+
+        <div class="form">
+
+            <label>Full Name</label>
+
+            <input
+            id="nameInput"
+            type="text"
+            value="Sriram">
+
+
+            <label>Email</label>
+
+            <input
+            id="emailInput"
+            type="email"
+            value="sriram18virat@gmail.com">
+
+
+            <label>Role</label>
+
+            <input
+            id="roleInput"
+            type="text"
+            value="Cricket Fan">
+
+
+            <button class="btn"
+            onclick="saveProfile()">
+                Save Changes
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- SETTINGS -->
+<section id="settings" class="page">
+
+    <div class="page-head">
+        <h1>⚙ Settings</h1>
+        <p>Customize your dashboard</p>
+    </div>
+
+    <div class="settings">
+
+        <div class="setting">
+
+            <div>
+                <h3>🔔 Notifications</h3>
+                <p>Receive match notifications</p>
+            </div>
+
+            <label class="switch">
+                <input type="checkbox" checked>
+                <span></span>
+            </label>
+
+        </div>
+
+
+        <div class="setting">
+
+            <div>
+                <h3>🌙 Dark Mode</h3>
+                <p>Use dark dashboard appearance</p>
+            </div>
+
+            <label class="switch">
+                <input
+                type="checkbox"
+                checked
+                onchange="darkMode(this)">
+                <span></span>
+            </label>
+
+        </div>
+
+
+        <div class="setting">
+
+            <div>
+                <h3>📧 Email Updates</h3>
+                <p>Receive email updates</p>
+            </div>
+
+            <label class="switch">
+                <input type="checkbox" checked>
+                <span></span>
+            </label>
+
+        </div>
+
+    </div>
+
+</section>
+
+</main>
+
+
+<div class="toast" id="toast"></div>
+
+
+<script>
+
+let tickets = 3;
+
+
+/* PAGE NAVIGATION */
+
+function showPage(page,button){
+
+    document.querySelectorAll(".page")
+    .forEach(p => p.classList.remove("active"));
+
+    document.getElementById(page)
+    .classList.add("active");
+
+    document.querySelectorAll(".nav-btn")
+    .forEach(btn => btn.classList.remove("active"));
+
+    if(button){
+        button.classList.add("active");
+    }
+
+    window.scrollTo(0,0);
+}
+
+
+/* TICKET BOOKING */
+
+function bookTicket(match){
+
+    tickets++;
+
+    document.getElementById("ticketCount")
+    .innerText = tickets;
+
+    let ticket =
+    document.createElement("div");
+
+    ticket.className = "ticket";
+
+    ticket.innerHTML = `
+        <div>
+            <small>CRICKET TICKET</small>
+            <h2>${match}</h2>
+            <p>🎟 Ticket successfully booked</p>
+        </div>
+
+        <span class="confirmed">
+            ✓ Confirmed
+        </span>
+    `;
+
+    document.getElementById("ticketList")
+    .prepend(ticket);
+
+    toast(match + " ticket booked!");
+
+    setTimeout(() => {
+        showPage("tickets");
+    },500);
+}
+
+
+/* PROFILE SAVE */
+
+function saveProfile(){
+
+    let name =
+    document.getElementById("nameInput").value;
+
+    let email =
+    document.getElementById("emailInput").value;
+
+    let role =
+    document.getElementById("roleInput").value;
+
+    if(name === "" || email === ""){
+        toast("Please fill all fields!");
+        return;
+    }
+
+
+    document.getElementById("topName")
+    .innerText = name;
+
+    document.getElementById("topRole")
+    .innerText = role;
+
+    document.getElementById("topAvatar")
+    .innerText =
+    name.charAt(0).toUpperCase();
+
+
+    document.getElementById("dashName")
+    .innerText = name;
+
+    document.getElementById("dashRole")
+    .innerText = role;
+
+    document.getElementById("dashEmail")
+    .innerText =
+    "✉ " + email;
+
+    document.getElementById("dashAvatar")
+    .innerText =
+    name.charAt(0).toUpperCase();
+
+
+    document.getElementById("profileName")
+    .innerText = name;
+
+    document.getElementById("profileRole")
+    .innerText = role;
+
+    document.getElementById("profileEmail")
+    .innerText = email;
+
+    document.getElementById("profileAvatar")
+    .innerText =
+    name.charAt(0).toUpperCase();
+
+    toast("Profile updated successfully!");
+}
+
+
+/* DARK MODE */
+
+function darkMode(toggle){
+
+    if(toggle.checked){
+
+        document.body.style.background =
+        "#050912";
+
+        document.body.style.color =
+        "#fff";
+
+        toast("Dark mode enabled");
+
+    }else{
+
+        document.body.style.background =
+        "#e8edf4";
+
+        document.body.style.color =
+        "#111";
+
+        toast("Light mode enabled");
+    }
+}
+
+
+/* LOGOUT */
+
+function logout(){
+
+    toast("Logout button clicked!");
+}
+
+
+/* MESSAGE */
+
+function toast(message){
+
+    let box =
+    document.getElementById("toast");
+
+    box.innerText = message;
+
+    box.classList.add("show");
+
+    setTimeout(() => {
+        box.classList.remove("show");
+    },2500);
+}
+
+</script>
+
+</body>
+</html>
